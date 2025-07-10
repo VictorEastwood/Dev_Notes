@@ -1,6 +1,6 @@
-# Ubuntu 环境下Opencv c++ with opencv-contrib配置
----
-注意，在安装opencv之前，需要配置好基础开发环境，具体可以查看[Linux基础开发环境配置](Linux_development.md)
+# Opencv c++ with opencv-contrib配置
+
+
 ## 1. 下载源码
 [https://opencv.org/releases/](https://opencv.org/releases/)
 
