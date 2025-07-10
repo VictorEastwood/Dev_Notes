@@ -1,5 +1,7 @@
-# Linux 基础配置（x86）
+# Linux 基础工作配置
 ---
+>本章将介绍Linux系统的基本安装与初始工作配置，确保你能实现一个良好的Linux工作环境。
+>本章内容适用于Ubuntu等Debian系Linux发行版。
 ## 1.安装系统（双系统）
 ### 1.1 下载镜像
 - [Ubuntu](https://ubuntu.com/download/desktop)
@@ -47,7 +49,10 @@ sudo apt upgrade
       sudo apt install libgsettings-qt1
       ```
 8. 重启电脑
-   
+9. 或者下载普通谷歌输入法
+```bash
+sudo apt-get install fcitx-googlepinyin -y
+```
 #### 2.2.2安装Clash for Windows Linux版
 1. 下载软件包：
 ```shell
@@ -55,9 +60,9 @@ wget https://github.com/clashdownload/Clash_for_Windows/releases/download/0.20.3
 ```
 如果 wget 下载不了，就把下载链接复制到浏览器下载。
 
-2. 运行软件
+1. 运行软件
 然后找到你下载的安装包，解压提取，打开文件夹，里面有一个 cfw 文件，双击就是 Clash 了。如果不行，请在该文件夹内打开终端，使用./cfw命令执行它。
-3. 把网络代理改成手动，按照如下设置：
+1. 把网络代理改成手动，按照如下设置：
 - HTTP代理 `127.0.0.1` `7890`
 - HTTPS代理 `127.0.0.1` `7890`
 - FTP代理 `      ` `0`
@@ -65,23 +70,3 @@ wget https://github.com/clashdownload/Clash_for_Windows/releases/download/0.20.3
 到浏览器测试YouTube，看看是否可以打开: https://www.youtube.com/
 
 
-
-#### 2.2.3 常用软件安装
-类似于安卓系统的apk安装方式，Linux系统也有自己的安装方式，那就是.deb文件安装方式。下面是一些常用软件的.deb文件下载地址和安装方式：
-| 软件 | 下载地址 |
-| --- | --- |
-| Chrome | https://www.google.cn/chrome/ |
-| VSCode | https://code.visualstudio.com/ |
-| QQ | https://im.qq.com/linuxqq/index.shtml |
-| 飞书 | https://www.feishu.cn/download |
-| 腾讯文档 | https://docs.qq.com/home/download |
-| ToDesk | https://www.todesk.com/ |
-| 百度网盘 | https://pan.baidu.com/download |
-
-可以进入(quick_install)一键安装常用软件
-```shell
-sudo dpkg -i *.deb
-sudo apt update
-sudo apt upgrade
-```
----

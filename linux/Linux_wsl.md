@@ -39,3 +39,7 @@
     ```powershell
     wsl --import Ubuntu-22.04 D:\Ubuntu_WSL D:\Ubuntu_WSL\Ubuntu.tar
     ```
+6. 打开指定的wsl
+    ```powershell
+    wsl -d Ubuntu-22.04
+    ```
