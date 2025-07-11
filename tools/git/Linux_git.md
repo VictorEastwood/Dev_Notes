@@ -13,8 +13,8 @@ git --version
 ## 2. 配置Git
 设置用户名和邮箱：
 ```bash
-git config --global user.name "Your Name"
-git config --global user.email "youremail@example.com"
+git config --global user.name "Shidong Wu"
+git config --global user.email "epsilon5400@gmail.com"
 ```
 
 ## 3. 创建Git仓库
