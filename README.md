@@ -7,6 +7,7 @@
 - [Linux 基础命令速查](/linux/Linux_cmd.md)
 - [Linux 开发环境配置](/linux/Linux_development.md)
 - [Linux WSL入门](/linux/Linux_wsl.md)
+- [Linux SSH远程连接](/linux/Linux_ssh.md)
 ###  ros2
 - [ROS2 安装与配置](/ros2/Linux_ros2_installation.md)
 - [ROS2 命令速查](/ros2/Linux_ros2_cmd.md)
