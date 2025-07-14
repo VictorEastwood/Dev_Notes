@@ -25,6 +25,8 @@
 #### opencv
 - [opencv安装](/lib/opencv/Linux_opencv_installation.md)
 
+### 开发教程
+- [PX4开发环境配置](/px4/Linux_px4_install.md)
 ---
 作者：[**@東木**](https://github.com/VictorEastwood)
 
