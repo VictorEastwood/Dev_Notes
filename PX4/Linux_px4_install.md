@@ -114,7 +114,7 @@ colcon build
 
 如果出现问题：
 ```bash
-pip install --user setuptools==58.2.0
+pip install setuptools==65.5.1
 ```
 
 
