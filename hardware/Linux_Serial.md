@@ -1,10 +1,59 @@
 # Linux 串口
 
-## 1. 查看CH340驱动
+在 Linux 系统中，与串口（Serial Port）相关的冲突问题通常涉及 `brltty`（Braille TTY）包。`brltty` 是一个为视障人士提供盲文显示支持的服务，但它可能会自动占用某些串口设备（如 `/dev/ttyS*` 或 `/dev/ttyUSB*`），导致其他应用程序无法访问这些串口。
+
+---
+
+## 解决 brltty 冲突问题
+
+### 检查和卸载 `brltty`
+
+1. **检查是否安装了 `brltty`**：
+   ```bash
+   dpkg -l | grep brltty  # Debian/Ubuntu
+   rpm -qa | grep brltty  # RHEL/CentOS/Fedora
+   ```
+
+2. **停止并卸载 `brltty`**：
+   ```bash
+   sudo systemctl stop brltty-udev.service      # 停止服务
+   sudo systemctl disable brltty-udev.service   # 禁用开机自启
+   sudo apt remove brltty                        # Debian/Ubuntu
+   sudo yum remove brltty                        # RHEL/CentOS
+   sudo dnf remove brltty                        # Fedora
+   ```
+
+3. **检查串口是否可用**：
+   卸载后，重新插拔串口设备或运行：
+   ```bash
+   sudo udevadm control --reload-rules
+   sudo udevadm trigger
+   ```
+   然后尝试访问串口（如使用 `minicom` 或 `screen`）。
+
+### 替代方案（如果不希望完全卸载）
+
+如果仍需要盲文支持，可以修改 `brltty` 的配置，使其不占用特定串口：
+- 编辑 `/etc/brltty.conf`，注释掉或移除相关串口设备
+- 或者使用 `udev` 规则阻止 `brltty` 绑定特定设备（如 `/dev/ttyUSB0`）
+
+### 注意事项
+
+- 卸载 `brltty` 可能会影响视障用户的辅助功能，请确保系统无此类需求后再操作
+- 如果问题依旧，检查是否有其他服务（如 `ModemManager`）占用串口，并参考相关方法解决
+
+如需进一步排查，可结合 `lsof /dev/ttyS*` 或 `dmesg` 查看具体占用进程。
+
+---
+
+## CH340 驱动安装和配置
+
+### 1. 查看 CH340 驱动
 
 ```bash
 ls /lib/modules/$(uname -r)/kernel/drivers/usb/serial
 ```
+
 一般能看到下面等文件：
 ```
 aircable.ko         io_ti.ko        navman.ko        ti_usb_3410_5052.ko
@@ -22,70 +71,107 @@ ftdi_sio.ko         mos7720.ko      spcp8x5.ko
 garmin_gps.ko       mos7840.ko      ssu100.ko
 io_edgeport.ko      mxuport.ko      symbolserial.ko
 ```
-上面可以看到含有ch341.ko文件，系统自带的版本比较老，删除掉：
+
+上面可以看到含有 `ch341.ko` 文件，系统自带的版本比较老，删除掉：
 ```bash
 cd /lib/modules/$(uname -r)/kernel/drivers/usb/serial
 sudo rm -rf ch341.ko
 ```
 
-## 2.检查硬件设备
-插上CH340设备，查看是否识别：
+### 2. 检查硬件设备
+
+插上 CH340 设备，查看是否识别：
 ```bash
 lsusb
 ```
+
 如果出现类似以下信息，说明设备已经被识别：
 ```
 Bus 003 Device 012: ID 1a86:7523 QinHeng Electronics CH340 serial converter
 ```
 
-## 3.安装新驱动
+### 3. 安装新驱动
+
 官网下载链接：[CH340驱动](https://www.wch.cn/download/CH341SER_LINUX_ZIP.html)
-下载后解压，进入解压目录，执行：
+
+下载后解压，进入解压目录：
 ```bash
 unzip CH341SER_LINUX.ZIP
 cd CH341SER_LINUX
 ```
-可以查阅README文件，里面有详细的安装说明:
-```
-ch341 Linux串口驱动
-说明
-这是一个用于CH340、CH341等USB转UART芯片的USB串口驱动程序。虽然CH341支持多种工作模式，但此驱动仅支持其串口模式。
 
-实际上，自Linux主线内核2.6.24版本以来，ch341串口驱动就已经内置于内核中，位于drivers/usb/serial/ch341.c。遗憾的是，内置驱动无法及时更新且不能支持芯片的所有功能。因此我们建议客户使用此驱动程序。
+**安装步骤：**
 
-安装步骤
-打开"终端"
-切换到"driver"目录
-使用make命令编译驱动，如果成功会生成ch341.ko模块
-输入sudo make load或sudo insmod ch341.ko来动态加载驱动
-输入sudo make unload或sudo rmmod ch341.ko来卸载驱动
-输入sudo make install使驱动程序永久生效
-输入sudo make uninstall来移除驱动
-您可以参考以下链接获取uart应用程序，可以使用gcc或交叉编译器进行编译： https://github.com/WCHSoftGroup/tty_uart
-使用前提
-在驱动工作之前，请确保USB设备已正确插入并正常工作。您可以使用shell命令lsusb或dmesg来确认，这些设备的USB VID为[1a86]。您可以在ch341.c中定义的ID表中查看所有ID。
+1. **打开终端并切换到驱动目录**：
+   ```bash
+   cd driver
+   ```
 
-如果设备工作正常，驱动程序将在dev目录下创建名为ttyCH341USBx的tty设备。
+2. **编译驱动**：
+   ```bash
+   make                    # 编译驱动，成功会生成ch341.ko模块
+   ```
 
-注意
-如有任何问题，请发送邮件至：tech@wch.cn
-```
-安装完毕后，插拔CH340设备，查看是否识别：
+3. **安装驱动**：
+   ```bash
+   sudo make install       # 安装驱动（永久生效）
+   ```
+
+4. **加载驱动**：
+   ```bash
+   sudo make load          # 动态加载驱动
+   # 或者使用: sudo insmod ch341.ko
+   ```
+
+5. **卸载驱动**（如需要）：
+   ```bash
+   sudo make unload        # 卸载驱动
+   # 或者使用: sudo rmmod ch341.ko
+   sudo make uninstall     # 移除驱动
+   ```
+
+**参考链接：**  
+您可以参考以下链接获取uart应用程序，可以使用gcc或交叉编译器进行编译：  
+https://github.com/WCHSoftGroup/tty_uart
+
+安装完毕后，插拔 CH340 设备，查看是否识别：
 ```bash
 ls /dev/
 ```
+
 如果出现类似以下信息，说明设备已经被识别：
-``` 
+```
 ttyCH341USB0
 ```
-## 4.测试串口
+
+### 4. 测试串口
+
 安装串口调试工具：
 ```bash
 sudo apt-get install cutecom
 ```
-打开串口调试工具
+添加用户组
+
+```bash
+sudo usermod -aG dialout $USER
+```
+重启系统或重新登录以使用户组更改生效。
+
+打开串口调试工具：
 ```bash
 sudo cutecom
 ```
-选择串口设备ttyCH341USB0，设置波特率为115200，数据位8，校验位None，停止位1，流控None。
-将CH340设备的TXD和RXD短接，输入字符并按回车，如果能够回显，说明串口正常。
+
+选择串口设备 `ttyCH341USB0`，设置波特率为 115200，数据位 8，校验位 None，停止位 1，流控 None。
+
+将 CH340 设备的 TXD 和 RXD 短接，输入字符并按回车，如果能够回显，说明串口正常。
+
+---
+
+## 常用串口工具
+
+除了 `cutecom`外，还可以使用以下工具进行串口调试：
+
+- `minicom`：命令行串口工具
+- `screen`：多用途终端程序，也可用于串口通信
+- `picocom`：轻量级串口工具
