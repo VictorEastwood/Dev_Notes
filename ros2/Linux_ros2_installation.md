@@ -1,5 +1,4 @@
 # ros2安装
----
 ## 目录
 - [ros2安装](#ros2安装)
   - [目录](#目录)
@@ -9,7 +8,6 @@
 
 ## 环境配置
 ###  安装ROS2
-
 输入以下命令安装ros2
 ```shell
 wget http://fishros.com/install -O fishros && . fishros
