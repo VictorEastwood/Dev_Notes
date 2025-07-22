@@ -1,4 +1,4 @@
-# 我的Linux笔记
+# 我的开发笔记
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/VictorEastwood/My_Note)](https://github.com/VictorEastwood/My_Note/stargazers)
