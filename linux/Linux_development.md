@@ -1,5 +1,5 @@
 # Linux 基础开发环境搭建
----
+
 ## 1.安装系统常用工具
 ```bash
 sudo apt install -y wget curl git tree vim
