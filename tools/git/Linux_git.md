@@ -52,3 +52,9 @@ git status
 ```bash
 git log
 ```
+
+## 添加远程仓库
+添加远程仓库到本地Git仓库：
+```bash
+git remote add origin <remote-repository-url>
+```
