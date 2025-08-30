@@ -53,6 +53,14 @@ sudo apt upgrade
 ```bash
 sudo apt-get install fcitx-googlepinyin -y
 ```
+
+#### 修改系统字体
+默认英文系统下中文字体很奇怪需要做以下修改：
+```bash
+sudo gedit /etc/fonts/conf.avail/64-language-selector-prefer.conf
+```
+将所有SC(Simplify Chinese)开头的置顶。
+
 #### 安装Clash for Windows Linux版
 1. 下载软件包：
 ```shell
