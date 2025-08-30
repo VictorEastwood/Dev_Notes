@@ -2,7 +2,7 @@
 
 ## 1.安装系统常用工具
 ```bash
-sudo apt install -y wget curl git tree vim
+sudo apt install -y wget curl git tree vim terminator minicom cutecom
 ```
 ## 2.C++开发环境搭建
 基础安装c++
