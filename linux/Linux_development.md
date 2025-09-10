@@ -26,6 +26,8 @@ sudo apt -y install python3 python3-pip python3-venv python-is-python3
 python3 --version
 pip3 --version
 ```
-
+git
+```bash
 git config --global user.email "epsilon5400@gmail.com"
 git config --global user.name "shidong_wu"
+```
