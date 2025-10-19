@@ -283,100 +283,59 @@ sudo service usbip restart
 sudo modprobe -r vhci-hcd
 sudo modprobe vhci-hcd
 ```
-
-### 4. 驱动问题
-```bash
-# 安装常见串口驱动
-sudo apt install linux-modules-extra-$(uname -r)
-
-# 加载常见串口芯片驱动
-sudo modprobe ch341
-sudo modprobe ftdi_sio
-sudo modprobe pl2303
-sudo modprobe cp210x
-```
-
 ---
 
-## 高级使用技巧
+### WSL2内核源码编译及符号链接创建指南
+1.查看当前内核版本
 
-### 1. 批量设备管理
-```powershell
-# 查看所有可用的 USB 设备
-usbipd list
-
-# 批量断开所有设备
-usbipd list | ForEach-Object { 
-    if ($_ -match "(\d+-\d+).*Shared") { 
-        usbipd detach --busid $matches[1] 
-    } 
-}
-```
-
-### 2. 持久化配置
 ```bash
-# 在 WSL2 中设置自动加载模块
-echo -e "usbip-core\nusbip-host\nvhci-hcd" | sudo tee -a /etc/modules
-
-# 设置自动权限
-sudo tee /etc/udev/rules.d/99-serial.rules << EOF
-KERNEL=="ttyUSB[0-9]*", MODE="0666"
-KERNEL=="ttyACM[0-9]*", MODE="0666"
-EOF
-
-# 重新加载 udev 规则
-sudo udevadm control --reload-rules
-sudo udevadm trigger
+uname -r
 ```
+2.下载内核源码
+进入WSL2内核源码仓库：
+https://github.com/microsoft/WSL2-Linux-Kernel
+选择与当前内核版本对应的源码分支进行下载。
+下载完成后，解压源码包并进入源码目录。
+3.安装编译依赖
 
-### 3. 性能优化
 ```bash
-# 在 WSL2 中创建配置文件
-sudo tee /etc/wsl.conf << EOF
-[automount]
-enabled = true
-mountFsTab = true
-
-[network]
-generateHosts = true
-generateResolvConf = true
-
-[interop]
-enabled = true
-appendWindowsPath = true
-EOF
+sudo apt install build-essential flex bison dwarves libssl-dev libelf-dev cpio qemu-utils
+sudo apt install libelf-dev build-essential pkg-config
+sudo apt install bison build-essential flex libssl-dev libelf-dev bc
+sudo apt-get install libssl-dev
 ```
 
----
 
-## 使用示例
 
-### 示例 1：连接 Arduino
-```powershell
-# Windows 端
-usbipd bind --busid 2-8 --force
-usbipd attach --wsl --busid 2-8
+4.编译内核
 
-# WSL2 端
-ls /dev/ttyUSB0
-# 输出: /dev/ttyUSB0
-```
-
-### 示例 2：连接多个设备
-```powershell
-# 连接多个 USB 转串口设备
-usbipd bind --busid 2-8 --force
-usbipd bind --busid 3-5 --force
-usbipd attach --wsl --busid 2-8
-usbipd attach --wsl --busid 3-5
-```
-
-### 示例 3：ROS 2 串口通信测试
 ```bash
-# 在 WSL2 中测试串口通信
-cd ~/ros2_serial_ws
-source install/setup.bash
-ros2 run serial_example wjwood_serial_node --ros-args -p serial_port:=/dev/ttyUSB0 -p baud_rate:=115200
+make KCONFIG_CONFIG=Microsoft/config-wsl && make INSTALL_MOD_PATH="$PWD/modules" modules_install
 ```
 
----
+5.创建正确的符号链接
+进入编译好的内核文件目录并获取当前路径：
+```bash
+pwd
+```
+示例输出：
+```plaintext
+/home/ubuntu/drivers/WSL2-Linux-Kernel-linux-msft-wsl-6.6.87.2
+```
+然后创建符号链接：
+```bash
+# 删除可能存在的错误链接
+sudo rm -f /lib/modules/$(uname -r)/build
+
+# 创建指向你内核源码目录的符号链接
+# 示例： sudo ln -sf /home/ubuntu/drivers/WSL2-Linux-Kernel-linux-msft-wsl-6.6.87.2 /lib/modules/$(uname -r)/build
+sudo ln -sf [你的内核源码目录路径] /lib/modules/$(uname -r)/build
+
+
+# 验证链接
+ls -la /lib/modules/$(uname -r)/build
+```
+若出现类似如下输出，说明符号链接创建成功：
+```plaintext
+lrwxrwxrwx 1 root root 62 Oct 19 23:35 /lib/modules/6.6.87.2-microsoft-standard-WSL2/build -> /home/ubuntu/drivers/WSL2-Linux-Kernel-linux-msft-wsl-6.6.87.2
+```
