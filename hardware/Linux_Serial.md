@@ -175,3 +175,23 @@ sudo cutecom
 - `minicom`：命令行串口工具
 - `screen`：多用途终端程序，也可用于串口通信
 - `picocom`：轻量级串口工具
+
+## ros2使用串口库教程
+
+在 ROS2 中使用串口库进行串口通信，可以使用 `serial` 库。以下是一个简单的教程，介绍如何在 ROS2 中使用 `serial` 库进行串口通信。
+### 1. 安装 `serial` 库
+首先，确保已经安装了 `serial` 库。可以使用以下命令进行安装：
+```bash
+sudo apt install ros-${ROS_DISTRO}-serial-driver
+```
+### 2.安装serial库依赖
+在使用 `serial` 库之前，需要安装一些依赖项。可以使用以下命令进行安装：
+```bash
+git clone https://github.com/ZhaoXiangBox/serial.git
+cd serial
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+```
