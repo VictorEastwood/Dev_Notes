@@ -183,6 +183,8 @@ sudo cutecom
 首先，确保已经安装了 `serial` 库。可以使用以下命令进行安装：
 ```bash
 sudo apt install ros-${ROS_DISTRO}-serial-driver
+sudo apt install ros-${ROS_DISTRO}-asio-cmake-module
+sudo apt install ros-${ROS_DISTRO}-io-context
 ```
 ### 2.安装serial库依赖
 在使用 `serial` 库之前，需要安装一些依赖项。可以使用以下命令进行安装：
