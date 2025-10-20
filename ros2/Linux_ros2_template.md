@@ -62,6 +62,23 @@ float64[3] position
 geometry_msgs/Point point
 ```
 
+**可用数据类型：**
+- 基本类型：`bool, byte, char, float32, float64, int8, uint8, int16, uint16, int32, uint32, int64, uint64, string, wstring`
+- 数组：`int32[]`（动态数组）, `int32[3]`（固定数组）, `int32[<=3]`（有界数组）
+- 嵌套类型：`std_msgs/Header`, `geometry_msgs/Point` 等
+
+**msg/VehicleState.msg**
+```
+# 车辆状态消息
+std_msgs/Header header
+float64 velocity
+float64 steering_angle
+float64 acceleration
+bool emergency_stop
+int32[3] rgb_led
+string[<=5] warnings  # 最多5个警告信息
+```
+
 **srv/Calculate.srv**
 ```
 # 请求部分
@@ -80,6 +97,12 @@ string message
 在`my_interfaces/CMakeLists.txt`中添加：
 
 ```cmake
+# 查找依赖包
+find_package(rosidl_default_generators REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+
+# 声明消息文件
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/CustomMessage.msg"
   "msg/VehicleState.msg"
@@ -93,7 +116,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 在`my_interfaces/package.xml`中添加：
 
 ```xml
-<buildtool_depend>rosidl_default_generators</buildtool_depend>
+<depend>builtin_interfaces</depend>
 <depend>geometry_msgs</depend>
 <depend>std_msgs</depend>
 <member_of_group>rosidl_interface_packages</member_of_group>
@@ -101,7 +124,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 
 
 
-### 6. 在其他包中使用自定义消息
+### 7. 在其他包中使用自定义消息
 
 在`CMakeLists.txt`中添加依赖：
 
@@ -121,3 +144,4 @@ ament_target_dependencies(your_node
 ```xml
 <depend>my_interfaces</depend>
 ```
+
