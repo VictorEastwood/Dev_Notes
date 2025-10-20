@@ -179,14 +179,8 @@ sudo cutecom
 ## ros2使用串口库教程
 
 在 ROS2 中使用串口库进行串口通信，可以使用 `serial` 库。以下是一个简单的教程，介绍如何在 ROS2 中使用 `serial` 库进行串口通信。
-### 1. 安装 `serial` 库
-首先，确保已经安装了 `serial` 库。可以使用以下命令进行安装：
-```bash
-sudo apt install ros-${ROS_DISTRO}-serial-driver
-sudo apt install ros-${ROS_DISTRO}-asio-cmake-module
-sudo apt install ros-${ROS_DISTRO}-io-context
-```
-### 2.安装serial库依赖
+
+### 1. 编译serial库
 在使用 `serial` 库之前，需要安装一些依赖项。可以使用以下命令进行安装：
 ```bash
 git clone https://github.com/ZhaoXiangBox/serial.git
@@ -195,5 +189,8 @@ mkdir build
 cd build
 cmake ..
 make
+```
+安装serial库
+```bash
 sudo make install
 ```
