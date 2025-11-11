@@ -77,6 +77,26 @@ io_edgeport.ko      mxuport.ko      symbolserial.ko
 cd /lib/modules/$(uname -r)/kernel/drivers/usb/serial
 sudo rm -rf ch341.ko
 ```
+禁用cdc-acm
+```bash
+# 1. 临时卸载 cdc-acm 驱动（立即删除 /dev/ttyACM0）
+sudo rmmod cdc_acm
+
+# 2. 验证 ttyACM0 已消失（这一步会提示“没有该文件或目录”，属于正常）
+ls /dev/ttyACM0
+
+# 3. 永久黑名单禁用 cdc-acm（避免重启后自动加载）
+echo "blacklist cdc_acm" | sudo tee /etc/modprobe.d/blacklist-acm.conf
+
+# 4. 强化禁用（防止被其他模块依赖触发加载）
+echo "install cdc_acm /bin/false" | sudo tee -a /etc/modprobe.d/blacklist-acm.conf
+
+# 5. 更新内核镜像缓存（关键：确保重启后规则生效）
+sudo update-initramfs -u
+
+# 6. 重启系统（让配置完全生效）
+sudo reboot
+```
 
 ### 2. 检查硬件设备
 
