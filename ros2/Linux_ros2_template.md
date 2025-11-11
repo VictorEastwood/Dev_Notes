@@ -145,3 +145,207 @@ ament_target_dependencies(your_node
 <depend>my_interfaces</depend>
 ```
 
+## 创建最简节点模板
+
+### C++ 最简节点模板
+
+在CMakeLists.txt中添加：
+
+```cmake
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+
+add_executable(cpp_node_1 src/cpp_node_1.cpp)
+ament_target_dependencies(cpp_node_1 rclcpp)
+
+add_executable(cpp_node_2 src/cpp_node_2.cpp)
+ament_target_dependencies(cpp_node_2 rclcpp)
+install(TARGETS
+  cpp_node_1
+  cpp_node_2
+  DESTINATION lib/${PROJECT_NAME}
+)
+ament_package()
+```
+
+最简化的C++节点代码示例：
+
+```cpp
+#include "rclcpp/rclcpp.hpp"
+
+class CustomNode : public rclcpp::Node
+{
+public:
+  CustomNode() : Node("custom_node")
+  {
+    RCLCPP_INFO(this->get_logger(), "Hello from CustomNode");
+  }
+};
+int main(int argc, char **argv)
+{
+  rclcpp::init(argc, argv);
+  auto node = std::make_shared<CustomNode>();
+  rclcpp::spin(node);
+  rclcpp::shutdown();
+  return 0;
+}
+```
+
+## 创建定时器节点模板
+
+### C++ 定时器节点模板
+
+```cpp
+#include "rclcpp/rclcpp.hpp"
+#include <chrono>
+
+class CustomNode : public rclcpp::Node
+{
+public:
+    CustomNode();  
+    
+private:
+    void timer_callback();
+    rclcpp::TimerBase::SharedPtr timer_;
+};
+
+
+CustomNode::CustomNode() : Node("custom_node")
+{
+    RCLCPP_INFO(this->get_logger(), "Hello from CustomNode");
+    
+    // 创建定时器，1000ms周期
+    timer_ = this->create_wall_timer(
+        std::chrono::milliseconds(1000),
+        std::bind(&CustomNode::timer_callback, this)
+    );
+}
+
+
+void CustomNode::timer_callback()
+{
+    RCLCPP_INFO(this->get_logger(), "Timer callback triggered");
+}
+
+int main(int argc, char **argv)
+{
+    rclcpp::init(argc, argv);
+    auto node = std::make_shared<CustomNode>();
+    rclcpp::spin(node);
+    rclcpp::shutdown();
+    return 0;
+}
+```
+
+## 消息接口
+
+### 话题发布与订阅
+
+假定有一个自定义消息`CustomMsg.msg`，内容如下：
+
+```
+# CustomMsg.msg
+std_msgs/Header header
+int32 data
+float64 timestamp
+int32[] data_array
+string message
+```
+
+话题通信示例：
+```cpp
+#include "rclcpp/rclcpp.hpp"
+#include "custom_msgs/msg/custom_msg.hpp"
+#include <chrono>
+#include <vector>
+
+class CustomNode : public rclcpp::Node
+{
+public:
+    CustomNode();
+    
+private:
+    void timer_callback();
+    void subscription_callback(const custom_msgs::msg::CustomMsg::SharedPtr msg);
+    
+    rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::Publisher<custom_msgs::msg::CustomMsg>::SharedPtr publisher_;
+    rclcpp::Subscription<custom_msgs::msg::CustomMsg>::SharedPtr subscription_;
+    int counter_ = 0;
+};
+
+// 类外定义构造函数
+CustomNode::CustomNode() : Node("custom_node")
+{
+    RCLCPP_INFO(this->get_logger(), "CustomNode started");
+    
+    // 创建发布者
+    publisher_ = this->create_publisher<custom_msgs::msg::CustomMsg>(
+        "custom_topic", 10);
+    
+    // 创建订阅者
+    subscription_ = this->create_subscription<custom_msgs::msg::CustomMsg>(
+        "custom_topic", 10,
+        std::bind(&CustomNode::subscription_callback, this, std::placeholders::_1));
+    
+    // 创建定时器 (1000ms周期)
+    timer_ = this->create_wall_timer(
+        std::chrono::milliseconds(1000),
+        std::bind(&CustomNode::timer_callback, this));
+}
+
+// 类外定义定时器回调函数 - 发布消息
+void CustomNode::timer_callback()
+{
+    auto message = custom_msgs::msg::CustomMsg();
+    
+    // 填充消息内容
+    message.header.stamp = this->now();
+    message.header.frame_id = "custom_frame";
+    message.data = counter_;
+    message.timestamp = this->now().seconds();
+    message.message = "Hello from CustomNode";
+    
+    // 填充数组数据
+    message.data_array = {counter_, counter_ + 1, counter_ + 2};
+    
+    // 发布消息
+    publisher_->publish(message);
+    
+    RCLCPP_INFO(this->get_logger(), 
+                "Published: data=%d, array_size=%zu", 
+                message.data, message.data_array.size());
+    
+    counter_++;
+}
+
+// 类外定义订阅回调函数 - 接收消息
+void CustomNode::subscription_callback(const custom_msgs::msg::CustomMsg::SharedPtr msg)
+{
+    RCLCPP_INFO(this->get_logger(), 
+                "Received: data=%d, timestamp=%.2f, message='%s', array=[%d, %d, %d]",
+                msg->data,
+                msg->timestamp,
+                msg->message.c_str(),
+                msg->data_array[0],
+                msg->data_array[1],
+                msg->data_array[2]);
+}
+
+int main(int argc, char **argv)
+{
+    rclcpp::init(argc, argv);
+    auto node = std::make_shared<CustomNode>();
+    rclcpp::spin(node);
+    rclcpp::shutdown();
+    return 0;
+}
+```
+
+
+
+
+
+
+
