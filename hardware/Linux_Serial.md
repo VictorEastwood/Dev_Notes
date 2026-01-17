@@ -112,7 +112,7 @@ Bus 003 Device 012: ID 1a86:7523 QinHeng Electronics CH340 serial converter
 
 ### 3. 安装新驱动
 
-官网仓库链接：[CH34x驱动](https://github.com/VictorEastwood/Dev_Notes/blob/main/hardware/Linux_Serial.md)
+官网仓库链接：[CH343ser驱动](https://github.com/WCHSoftGroup/ch343ser_linux.git)[CH341ser驱动](https://github.com/WCHSoftGroup/ch341ser_linux.git)
 
 下载后解压，进入解压目录：
 ```bash
@@ -213,4 +213,8 @@ make
 安装serial库
 ```bash
 sudo make install
+```
+
+```bash
+sudo ldconfig
 ```
