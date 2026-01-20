@@ -11,10 +11,18 @@
 ```shell
 wget http://fishros.com/install -O fishros && . fishros
 ```
+
+安装colcon
+```bash
+# ROS 2 (推荐使用 colcon)
+sudo apt install python3-colcon-common-extensions
+```
+
 验证是否安装成功
 ```shell
 echo $ROS_DISTRO
 ```
+
 若返回值为`foxy` `humble` `jazzy`等则安装成功
 
 ####  安装ROS开发必要的工具（按需要选装）
