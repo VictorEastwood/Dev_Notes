@@ -29,5 +29,5 @@ pip3 --version
 git
 ```bash
 git config --global user.email "epsilon5400@gmail.com"
-git config --global user.name "shidong_wu"
+git config --global user.name "VictorEastwood"
 ```
