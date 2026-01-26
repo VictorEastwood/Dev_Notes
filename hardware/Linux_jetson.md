@@ -58,3 +58,23 @@ sudo apt update
 sudo apt install flex
 sudo apt install build-essential flex bison libssl-dev
 sudo MicroXRCEAgent serial --dev /dev/ttyTHS1 -b 921600
+
+
+# Install Jetson Wifi Drivers
+
+
+```bash
+sudo cp -r /lib/modules/$(uname -r)/build /lib/modules/$(uname -r)/backup_build
+```
+```bash
+sudo rm /lib/modules/$(uname -r)/build
+```
+
+```bash
+sudo ln -s /usr/src/linux-headers-5.15.148-tegra-ubuntu22.04_aarch64/3rdparty/canonical/linux-jammy/kernel-source/ /lib/modules/$(uname -r)/build
+```
+```bash
+sudo apt install -y iwlwifi-modules
+```
+
+
