@@ -2,12 +2,18 @@
 
 ## 目录
 
-* [一、 修饰键符号说明](https://www.google.com/search?q=%23%E4%B8%80-%E4%BF%AE%E9%A5%B0%E9%94%AE%E7%AC%A6%E5%8F%B7%E8%AF%B4%E6%98%8E)
-* [二、 通用常用快捷键](https://www.google.com/search?q=%23%E4%BA%8C-%E9%80%9A%E7%94%A8%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE)
-* [三、 访达 (Finder) 与系统快捷键](https://www.google.com/search?q=%23%E4%B8%89-%E8%AE%BF%E8%BE%BE-finder-%E4%B8%8E%E7%B3%BB%E7%BB%9F%E5%BF%AB%E6%8D%B7%E9%94%AE)
-* [四、 文本编辑快捷键](https://www.google.com/search?q=%23%E5%9B%9B-%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%BF%AB%E6%8D%B7%E9%94%AE)
-* [五、 睡眠、退出登录与关机](https://www.google.com/search?q=%23%E4%BA%94-%E7%9D%A1%E7%9C%A0%E9%80%80%E5%87%BA%E7%99%BB%E5%BD%95%E4%B8%8E%E5%85%B3%E6%9C%BA)
-* [六、 辅助功能快捷键](https://www.google.com/search?q=%23%E5%85%AD-%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD%E5%BF%AB%E6%8D%B7%E9%94%AE)
+- [Mac 键盘快捷键速查手册](#mac-键盘快捷键速查手册)
+  - [目录](#目录)
+  - [一、 修饰键符号说明](#一-修饰键符号说明)
+  - [二、 通用常用快捷键](#二-通用常用快捷键)
+  - [三、 访达 (Finder) 与系统快捷键](#三-访达-finder-与系统快捷键)
+    - [文件管理](#文件管理)
+    - [视图与跳转](#视图与跳转)
+    - [界面显隐](#界面显隐)
+    - [系统交互](#系统交互)
+  - [四、 文本编辑快捷键](#四-文本编辑快捷键)
+  - [五、 睡眠、退出登录与关机](#五-睡眠退出登录与关机)
+  - [六、 辅助功能快捷键](#六-辅助功能快捷键)
 
 ---
 
