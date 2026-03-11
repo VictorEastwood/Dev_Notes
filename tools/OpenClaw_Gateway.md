@@ -32,9 +32,9 @@ openclaw gateway status
 openclaw config set gateway.bind "lan"
 ```
 **作用**：允许局域网设备访问，监听地址从 `127.0.0.1` 变为 `0.0.0.0`。
-### 2. 修改端口号（从 18789 改为 20296）
+### 2. 修改端口号（从 18789 改为 xxxxx）
 ```bash
-openclaw config set gateway.port 20296
+openclaw config set gateway.port xxxxx
 ```
 **作用**：更改网关监听端口。
 ---
@@ -70,12 +70,12 @@ openclaw gateway status
 | **绑定地址** | `bind=lan (0.0.0.0)` | 监听所有网络接口 |
 | **端口** | `port=20296` | 新端口已生效 |
 | **RPC探测** | `ok` | 内部通信正常 |
-| **访问地址** | `Dashboard: http://192.168.2.141:20296/` | 可访问的网址 |
+| **访问地址** | `Dashboard: http://192.168.2.141:xxxxx/` | 可访问的网址 |
 ### 3. 验证端口监听
 ```bash
-netstat -tuln | grep 20296
+netstat -tuln | grep xxxxx
 ```
-应显示：`tcp4  0  0  *.20296   *.*   LISTEN`
+应显示：`tcp4  0  0  *.xxxxx   *.*   LISTEN`
 ---
 ## 📚 常用命令速查表
 | 操作 | 命令 |
@@ -104,7 +104,7 @@ openclaw gateway start
 **解决**：
 ```bash
 # 检查端口占用
-lsof -i :20296
+lsof -i :xxxxx
 # 终止占用进程或更换端口
 openclaw config set gateway.port 新端口号
 openclaw gateway restart
@@ -133,10 +133,10 @@ openclaw gateway start
 ## 🎯 快速操作清单
 - [ ] 执行 `openclaw gateway status` 检查当前状态
 - [ ] 执行 `openclaw config set gateway.bind "lan"` 修改绑定地址
-- [ ] 执行 `openclaw config set gateway.port 20296` 修改端口
+- [ ] 执行 `openclaw config set gateway.port xxxxx` 修改端口
 - [ ] 执行 `openclaw gateway install && openclaw gateway start` 安装并启动
 - [ ] 执行 `openclaw gateway status` 验证最终状态
-- [ ] 浏览器访问 `http://<您的IP>:20296/` 确认可访问
+- [ ] 浏览器访问 `http://<您的IP>:xxxxx/` 确认可访问
 ---
 **备注**：
 1. 配置修改后必须重启服务才能生效
