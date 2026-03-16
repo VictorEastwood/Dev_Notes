@@ -24,9 +24,9 @@ ls -al ~/.ssh
 推荐使用更安全、性能更好的 `ed25519` 算法：
 ```bash
 # 推荐方式
-ssh-keygen -t ed25519 -C "epsilon5400@gmail.com"
+ssh-keygen -t ed25519 -C "your_email@example.com"
 # 或使用传统 RSA 算法
-ssh-keygen -t rsa -b 4096 -C "epsilon5400@gmail.com"
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 *   按提示操作，可直接按回车使用默认路径和空密码。
 ### 第三步：上传公钥到服务器

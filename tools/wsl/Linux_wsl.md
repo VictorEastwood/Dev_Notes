@@ -320,7 +320,7 @@ pwd
 ```
 示例输出：
 ```plaintext
-/home/ubuntu/drivers/WSL2-Linux-Kernel-linux-msft-wsl-6.6.87.2
+/home/<username>/drivers/WSL2-Linux-Kernel-linux-msft-wsl-6.6.87.2
 ```
 然后创建符号链接：
 ```bash
@@ -328,8 +328,8 @@ pwd
 sudo rm -f /lib/modules/$(uname -r)/build
 
 # 创建指向你内核源码目录的符号链接
-# 示例： sudo ln -sf /home/ubuntu/drivers/WSL2-Linux-Kernel-linux-msft-wsl-6.6.87.2 /lib/modules/$(uname -r)/build
-sudo ln -sf [你的内核源码目录路径] /lib/modules/$(uname -r)/build
+
+sudo ln -sf <your_kernel_source_directory> /lib/modules/$(uname -r)/build
 
 
 # 验证链接
@@ -337,5 +337,5 @@ ls -la /lib/modules/$(uname -r)/build
 ```
 若出现类似如下输出，说明符号链接创建成功：
 ```plaintext
-lrwxrwxrwx 1 root root 62 Oct 19 23:35 /lib/modules/6.6.87.2-microsoft-standard-WSL2/build -> /home/ubuntu/drivers/WSL2-Linux-Kernel-linux-msft-wsl-6.6.87.2
+lrwxrwxrwx 1 root root 62 Oct 19 23:35 /lib/modules/6.6.87.2-microsoft-standard-WSL2/build -> /home/<username>/drivers/WSL2-Linux-Kernel-linux-msft-wsl-6.6.87.2
 ```
