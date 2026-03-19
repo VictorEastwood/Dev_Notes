@@ -273,6 +273,7 @@ ssh -X user@<Mac_IP>
 3. **`xhost +`授权**解决了权限问题
 4. **网络连通性测试**帮助排查问题
 按照本指南操作，您应该能够在Apple Silicon Mac上成功运行Ubuntu容器并使用图形应用程序。
+   
 ```bash
 # 1. 创建用户
 useradd -m -s /bin/bash developer
