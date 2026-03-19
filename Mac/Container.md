@@ -43,8 +43,8 @@ container exec -it ubuntu-x11 /bin/bash
 - `-t`：分配伪终端
 - `--name`：指定容器名称
 ### 1.4 容器基本操作命令
-<details>
-<summary>📖 常用容器命令参考</summary>
+
+📖 常用容器命令参考
 | 操作 | 命令 | 说明 |
 |------|------|------|
 | 查看运行容器 | `container ls` | 仅显示运行中的容器 |
@@ -54,7 +54,7 @@ container exec -it ubuntu-x11 /bin/bash
 | 删除容器 | `container rm <名称>` | 删除容器（需先停止） |
 | 进入容器 | `container exec -it <名称> /bin/bash` | 在运行容器中执行命令 |
 | 查看日志 | `container logs <名称>` | 查看容器输出日志 |
-</details>
+
 ## 🖥️ 第二部分：X11转发配置
 ### 2.1 安装XQuartz（Mac端）
 XQuartz是macOS上运行X11应用程序的必需组件。
@@ -73,11 +73,14 @@ defaults write org.xquartz.X11 nolisten_tcp -bool false
 open -a XQuartz
 ```
 ### 2.3 验证X11服务状态
+
 ```bash
 # 检查6000端口是否监听
 lsof -i :6000
 ```
+
 **预期输出：**
+
 ```
 COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
 X11.bin 1234 user 10u IPv6 0x... 0t0 TCP *:6000 (LISTEN)
@@ -86,6 +89,7 @@ X11.bin 1234 user 11u IPv4 0x... 0t0 TCP *:6000 (LISTEN)
 如果没有输出，说明配置未生效，请重新执行步骤2.2。
 ### 2.4 容器内环境配置
 进入容器后，需要安装必要的软件包：
+
 ```bash
 # 更新软件源
 apt update
@@ -96,15 +100,18 @@ apt install -y x11-apps
 # 安装其他常用工具
 apt install -y vim net-tools curl
 ```
+
 ### 2.5 网络配置与连接
 **步骤1：获取Mac IP地址**
 在**Mac终端**执行：
+
 ```bash
 # 获取en0网卡的IP地址
 ipconfig getifaddr en0
 ```
 **步骤2：设置DISPLAY变量**
 在**容器终端**执行：
+
 ```bash
 # 设置DISPLAY变量（替换为实际Mac IP）
 export DISPLAY=<Mac_IP>:0
@@ -112,6 +119,7 @@ export DISPLAY=<Mac_IP>:0
 ```
 **步骤3：网络连通性测试**
 在容器内测试与Mac的连通性：
+
 ```bash
 # 测试网络连通性
 ping -c 4 <Mac_IP>
@@ -121,19 +129,22 @@ ifconfig -a
 ### 2.6 授权与测试
 **步骤1：X11授权**
 在**Mac终端**执行：
+
 ```bash
 # 允许所有客户端连接（测试环境使用）
 xhost +
 ```
+
 **步骤2：测试X11转发**
 在**容器终端**执行：
+
 ```bash
 # 测试X11转发
 xclock
 ```
 如果看到时钟窗口弹出，说明配置成功！
 ## 🔧 完整配置流程图
-   
+
 ```mermaid
 flowchart LR
     A[开始] --> B[安装Apple Container]
