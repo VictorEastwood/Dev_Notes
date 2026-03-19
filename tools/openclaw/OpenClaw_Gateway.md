@@ -70,7 +70,7 @@ openclaw gateway status
 | **绑定地址** | `bind=lan (0.0.0.0)` | 监听所有网络接口 |
 | **端口** | `port=20296` | 新端口已生效 |
 | **RPC探测** | `ok` | 内部通信正常 |
-| **访问地址** | `Dashboard: http://192.168.2.141:xxxxx/` | 可访问的网址 |
+| **访问地址** | `Dashboard: http://192.168.1.100:xxxxx/` | 可访问的网址 |
 ### 3. 验证端口监听
 ```bash
 netstat -tuln | grep xxxxx

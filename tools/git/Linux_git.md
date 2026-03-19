@@ -69,10 +69,10 @@ ls -al ~/.ssh
 ### 9.2 生成新的 SSH 密钥（如果没有）
 ```bash
 # 推荐使用 ed25519 算法
-ssh-keygen -t ed25519 -C "epsilon5400@gmail.com"
+ssh-keygen -t ed25519 -C "your_email@example.com"
 
 # 或使用 RSA 算法
-ssh-keygen -t rsa -b 4096 -C "epsilon5400@gmail.com"
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 按提示设置保存路径和密码（可直接按回车使用默认值）。
 
