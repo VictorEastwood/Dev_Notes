@@ -133,6 +133,7 @@ xclock
 ```
 如果看到时钟窗口弹出，说明配置成功！
 ## 🔧 完整配置流程图
+   
 ```mermaid
 flowchart LR
     A[开始] --> B[安装Apple Container]
@@ -150,9 +151,11 @@ flowchart LR
     L -- 否 --> N[检查网络/权限]
     N --> D
 ```
+   
 ## 🚀 快速启动脚本
 为了方便日常使用，可以创建以下脚本：
 **Mac端启动脚本** (`start_x11.sh`)：
+   
 ```bash
 #!/bin/bash
 echo "=== 启动X11服务 ==="
@@ -174,7 +177,9 @@ echo "请在容器内设置: export DISPLAY=$MAC_IP:0"
 echo ""
 echo "X11服务已启动，可以开始使用图形应用！"
 ```
+   
 **容器内环境设置脚本** (`setup_container.sh`)：
+   
 ```bash
 #!/bin/bash
 # 容器内环境设置脚本
@@ -196,6 +201,7 @@ echo "export DISPLAY=<Mac_IP>:0"
 echo ""
 echo "容器环境设置完成！"
 ```
+   
 ## ⚠️ 安全注意事项
 1. **X11授权安全**：
    - `xhost +` 允许所有连接，仅用于测试环境
@@ -207,8 +213,8 @@ echo "容器环境设置完成！"
    - 容器资源默认有限制，如需运行大型应用需调整
    - 可以使用`--memory`和`--cpus`参数限制资源
 ## 🔍 故障排除
-<details>
-<summary>📖 常见问题解决方案</summary>
+
+📖 常见问题解决方案
 | 问题 | 可能原因 | 解决方案 |
 |------|----------|----------|
 | `xclock` 无显示 | 网络不通 | 检查IP地址，使用`ping`测试 |
@@ -217,31 +223,37 @@ echo "容器环境设置完成！"
 | XQuartz不监听6000端口 | 配置未生效 | 重新执行`defaults write`命令 |
 | 容器内缺少命令 | 包未安装 | 使用`apt install`安装所需包 |
 **详细排查步骤：**
+
 1. **检查XQuartz状态**：
+   
    ```bash
    lsof -i :6000
    ps aux | grep XQuartz
    ```
 2. **检查网络连通性**：
+   
    ```bash
    # 在容器内
    ping -c 4 <Mac_IP>
    ```
 3. **检查环境变量**：
+      
    ```bash
    # 在容器内
    echo $DISPLAY
    env | grep DISPLAY
    ```
 4. **查看XQuartz日志**：
+      
    ```bash
    # 在Mac终端
    log show --predicate 'process == "XQuartz"' --last 5m
    ```
-</details>
+
 ## 📚 进阶配置
 ### 持久化DISPLAY设置
 如果希望每次进入容器都自动设置DISPLAY，可以添加到容器配置：
+      
 ```bash
 # 在容器内创建启动脚本
 cat > /etc/profile.d/x11.sh << 'EOF'
@@ -256,6 +268,7 @@ fi
 EOF
 chmod +x /etc/profile.d/x11.sh
 ```
+   
 ### 使用SSH X11转发（替代方案）
 如果X11转发有问题，可以尝试SSH转发：
 ```bash
@@ -266,6 +279,7 @@ apt install -y openssh-client
 # 使用SSH X11转发
 ssh -X user@<Mac_IP>
 ```
+   
 ## 🎯 总结
 本指南涵盖了从Apple Container安装到X11转发配置的完整流程。关键要点包括：
 1. **XQuartz网络监听配置**是成功的关键
@@ -283,4 +297,8 @@ passwd developer
 usermod -aG sudo developer
 # 4. 切换到该用户（关键！）
 su - developer
+```
+
+```bash
+echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 ```
