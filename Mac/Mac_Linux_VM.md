@@ -56,3 +56,8 @@ sudo systemctl set-default graphical.target
 ```bash
 sudo reboot
 ```
+### 3.5 安装vm工具
+```bash
+sudo apt update
+sudo apt install open-vm-tools-desktop
+```
