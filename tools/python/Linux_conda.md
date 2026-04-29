@@ -1,3 +1,4 @@
+```bash
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/$(uname -r)/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -15,3 +16,4 @@ unset __conda_setup
 # 强制不激活基础环境
 conda deactivate 2>/dev/null
 # <<< conda initialize <<<
+```
