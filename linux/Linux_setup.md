@@ -7,15 +7,6 @@
 - [Ubuntu](https://ubuntu.com/download/desktop)
 ### 制作启动盘
 - [Rufus](https://rufus.ie/)
-### windows下删除原有分区
-注意：删除分区会导致数据丢失，请提前备份数据以下命令中的1是你的linux分区号，可以通过diskpart命令查看
-```shell
-diskpart
-list disk
-select disk 1
-list partition
-clean
-```
 ### 更换软件源
 我们使用小鱼提供的一键安装脚本来更换软件源，脚本如下：
 ```shell
@@ -61,21 +52,9 @@ sudo gedit /etc/fonts/conf.avail/64-language-selector-prefer.conf
 ```
 将所有SC(Simplify Chinese)开头的置顶。
 
-#### 安装Clash for Windows Linux版
-1. 下载软件包：
-```shell
-wget https://github.com/clashdownload/Clash_for_Windows/releases/download/0.20.39/Clash.for.Windows-0.20.39-x64-linux.tar.gz
-```
-如果 wget 下载不了，就把下载链接复制到浏览器下载。
+#### 安装Clash
+https://github.com/clash-verge-rev/clash-verge-rev
 
-1. 运行软件
-然后找到你下载的安装包，解压提取，打开文件夹，里面有一个 cfw 文件，双击就是 Clash 了。如果不行，请在该文件夹内打开终端，使用./cfw命令执行它。
-1. 把网络代理改成手动，按照如下设置：
-- HTTP代理 `127.0.0.1` `7890`
-- HTTPS代理 `127.0.0.1` `7890`
-- FTP代理 `      ` `0`
-- Socks主机(s)`127.0.0.1` `7890`
-到浏览器测试YouTube，看看是否可以打开: https://www.youtube.com/
 
 ## 其他设置
 ### grub引导界面美化
